@@ -1,0 +1,10 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: flask-pod-yaml-v2
+spec:
+  containers:
+    - name: flask-container
+      image: shivrajtate99/flaskapp
+      ports:
+        - containerPort: 5000

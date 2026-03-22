@@ -1,0 +1,43 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: flask-deployment
+
+spec:
+  replicas: 2
+
+  selector:
+    matchLabels:
+      app: flask
+
+  template:
+    metadata:
+      labels:
+        app: flask
+
+    spec:
+      containers:
+        - name: flask-container
+          image: shivrajtate99/flaskapp
+          ports:
+            - containerPort: 5000
+          env:
+            - name: REDIS_HOST
+              valueFrom:
+                configMapKeyRef:
+                  name: flask-config
+                  key: REDIS_HOST
+
+            - name: APP_MODE
+              valueFrom:
+                configMapKeyRef:
+                  name: flask-config
+                  key: APP_MODE
+          resources:
+            requests:
+              memory: "128Mi"
+              cpu: "250m"
+
+            limits:
+              memory: "256Mi"
+              cpu: "500m"
